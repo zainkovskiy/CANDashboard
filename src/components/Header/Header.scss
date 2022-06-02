@@ -1,0 +1,19 @@
+.header{
+  padding: 1rem;
+  border: 1px solid #484848;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 1rem;
+  &__logo{
+    height: 50px;
+  }
+  &__filter{
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 200px minmax(100px, 150px) minmax(65px, 100px) min-content;
+  }
+}

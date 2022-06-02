@@ -1,0 +1,31 @@
+.statistics{
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) minmax(200px, 1fr);
+  grid-gap: 1rem ;
+}
+.statistic{
+  border: 1px solid #484848;
+  border-radius: 5px;
+  height: min-content;
+  &__header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    border-bottom: 1px solid #484848;
+    box-sizing: border-box;
+    background-color: rgb(12 84 160 / 24%);
+    & span{
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+    }
+  }
+  &__body{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    min-height: 100px;
+    justify-content: space-between;
+  }
+}
