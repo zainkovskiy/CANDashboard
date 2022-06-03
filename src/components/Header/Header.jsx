@@ -61,83 +61,103 @@ const monthList = [
 ]
 
 export function Header(props) {
-  const { name, rights, office, subordinated, getData } = props;
+  const { name, rights, officeList, subordinated, getData, startOffice, startEmploee, setStateMount, setStateYear } = props;
 
   const [year, setYear] = useState(moment().format('YYYY'));
   const [month, setMonth] = useState(moment().format('M'));
-  const [source, setSource] = useState(rights === 'chief' ? office : name)
+  const [employee, setEmployee] = useState(startEmploee);
+  const [office, setOffice] = useState(startOffice)
   const [errorYear, setErrorYear] = useState(false);
-  const [btnDisabled , setBtnDisabled] = useState(true);
+  const [btnDisabled, setBtnDisabled] = useState(true);
 
   useEffect(() => {
     if (moment().format('YYYY') === year && month > moment().format('M')) {
-      setMonth('')
+      setMonth('');
+      setStateMount('')
     }
     if (year.length === 4) {
       if (moment().format('YYYY') < year || year < '2022') {
-        setYear('')
+        setYear('');
+        setStateYear('');
       }
     }
   }, [year])
 
   const handlerFilter = () => {
-    if (year.length < 4){
+    if (year.length < 4) {
       setErrorYear(true)
       return
     }
     setErrorYear(false);
-    if (source === office || source === name) {
+    if (rights === 'chief' && employee === 'all') {
       getData({
-        action: "get",
-        userId : userId,
-        month : month,
-        year : year
+        action: "getOffice",
+        userId: userId,
+        officeId: officeList.find(officeFind => officeFind.NAME === office).NAME,
+        month: month,
+        year: year
       })
-    } else{
+    } else {
       getData({
         action: "getManager",
-        userId : userId,
-        month : month,
-        year : year,
-        managerId: subordinated.find(user => user.name === source).userId
+        userId: userId,
+        month: month,
+        year: year,
+        managerId: rights === 'chief' ? subordinated.find(user => user.name === name).userId : userId
       })
     }
   }
-
   return (<div className='header'>
     <img className='header__logo' src="https://crm.centralnoe.ru/dealincom/assets/logo_can.jpg" alt="logo" />
 
     <div className="header__filter">
-      {
-        rights === 'chief' ?
-          <FormControl size="small">
-            <InputLabel id="demo-simple-select-label">{source === office ? 'Офис' : 'Сотрудник'}</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={source}
-              label={source === office ? 'Офис' : 'Сотрудник'}
-              name={'mounth'}
-              onChange={event => setSource(event.target.value, setBtnDisabled(false))}
-              size='small'
-            >
-              <MenuItem value={office}>{office}</MenuItem>
-              {
-                subordinated.length > 0 &&
-                subordinated.map(employee =>
-                  <MenuItem key={employee.userId} value={employee.name}>{employee.name}</MenuItem>)
-              }
-            </Select>
-          </FormControl> :
-          <TextField
-            id="outlined-basic"
-            label="Сотрудник"
-            variant="outlined"
-            size="small"
-            value={name}
-            disabled={true}
-          />
-      }
+      <FormControl size="small">
+        <InputLabel id="demo-simple-select-label">Офис</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={office}
+          label='Офис'
+          name={'office'}
+          onChange={event => { setOffice(event.target.value), setBtnDisabled(false) }}
+          size='small'
+          disabled={rights !== 'chief'}
+        >
+          {
+            officeList.length > 0 &&
+            officeList.map(office =>
+              <MenuItem key={office.ID} value={office.NAME}>{office.NAME}</MenuItem>)
+          }
+        </Select>
+      </FormControl>
+      <FormControl size="small">
+        <InputLabel id="demo-simple-select-label">Сотрудник</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={employee}
+          label='Сотрудник'
+          name={'employee'}
+          onChange={event => { setEmployee(event.target.value), setBtnDisabled(false) }}
+          size='small'
+          disabled={rights !== 'chief'}
+        >
+          {
+            rights !== 'chief' &&
+              <MenuItem value={employee}>{employee}</MenuItem> 
+          }
+          {
+            rights === 'chief' && subordinated?.length > 0 &&
+            <MenuItem value='all'>Все</MenuItem>
+          }
+          {
+            rights === 'chief' && subordinated?.length > 0 &&
+              subordinated.map(employee =>
+                +employee.officeId === +officeList.find(officeFind => officeFind.NAME === office).ID &&
+                <MenuItem key={employee.userId} value={employee.name}>{employee.name}</MenuItem>)
+          }
+        </Select>
+      </FormControl>
       <FormControl size="small" sx={{ width: '100%' }}>
         <InputLabel id="demo-simple-select-label">{'Месяц'}</InputLabel>
         <Select
@@ -146,7 +166,7 @@ export function Header(props) {
           value={month}
           label={'Месяц'}
           name={'month'}
-          onChange={event => setMonth(event.target.value, setBtnDisabled(false))}
+          onChange={event => { setMonth(event.target.value), setBtnDisabled(false), setStateMount(event.target.value) }}
           size='small'
         >
           {
@@ -168,14 +188,14 @@ export function Header(props) {
         variant="outlined"
         size="small"
         value={year}
-        onChange={event => setYear(event.target.value.replace(/[^\d]/g, '').substring(0, 4), setBtnDisabled(false))}
+        onChange={event => { setYear(event.target.value.replace(/[^\d]/g, '').substring(0, 4)), setBtnDisabled(false), setStateYear(event.target.value.replace(/[^\d]/g, '').substring(0, 4)) }}
         disabled={moment().format('YYYY') === '2022'}
         error={errorYear}
       />
       <Button
         variant="contained"
         onClick={() => handlerFilter()}
-        disabled={ btnDisabled }
+        disabled={btnDisabled}
       >
         Применить
       </Button>

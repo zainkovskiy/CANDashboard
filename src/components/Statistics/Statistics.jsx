@@ -7,11 +7,11 @@ import { Week } from 'components/Week';
 import './Statistics.scss';
 
 export function Statistics(props) {
-  const { statistic, curWeek, onClose } = props;
+  const { statistic, curWeek, getDealyStatitistic } = props;
   return (
     <div className="statistics">
       {
-        statistic.length > 0 ?
+        statistic?.length > 0 ?
           statistic.map(block =>
             <div key={block.UID} className="statistic">
               {
@@ -36,7 +36,7 @@ export function Statistics(props) {
                       <Button
                         variant="outlined"
                         style={{ alignSelf: 'flex-start' }}
-                        onClick={onClose}
+                        onClick={() => {getDealyStatitistic(block.UID)}}
                       >
                         По дням
                       </Button>

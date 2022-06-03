@@ -14,6 +14,6 @@
   &__filter{
     display: grid;
     grid-gap: 1rem;
-    grid-template-columns: 200px minmax(100px, 150px) minmax(65px, 100px) min-content;
+    grid-template-columns: 200px 200px minmax(100px, 150px) minmax(65px, 100px) min-content;
   }
 }
