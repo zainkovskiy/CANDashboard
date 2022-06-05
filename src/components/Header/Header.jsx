@@ -124,9 +124,13 @@ export function Header(props) {
           disabled={rights !== 'chief'}
         >
           {
-            officeList.length > 0 &&
+            officeList?.length > 0 &&
             officeList.map(office =>
               <MenuItem key={office.ID} value={office.NAME}>{office.NAME}</MenuItem>)
+          }
+          {
+            rights !== 'chief' &&
+            <MenuItem value={office}>{office}</MenuItem>
           }
         </Select>
       </FormControl>
@@ -144,7 +148,7 @@ export function Header(props) {
         >
           {
             rights !== 'chief' &&
-              <MenuItem value={employee}>{employee}</MenuItem> 
+            <MenuItem value={employee}>{employee}</MenuItem>
           }
           {
             rights === 'chief' && subordinated?.length > 0 &&
@@ -152,9 +156,9 @@ export function Header(props) {
           }
           {
             rights === 'chief' && subordinated?.length > 0 &&
-              subordinated.map(employee =>
-                +employee.officeId === +officeList.find(officeFind => officeFind.NAME === office).ID &&
-                <MenuItem key={employee.userId} value={employee.name}>{employee.name}</MenuItem>)
+            subordinated.map(employee =>
+              +employee.officeId === +officeList.find(officeFind => officeFind.NAME === office).ID &&
+              <MenuItem key={employee.userId} value={employee.name}>{employee.name}</MenuItem>)
           }
         </Select>
       </FormControl>

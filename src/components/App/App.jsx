@@ -31,7 +31,7 @@ export class App extends Component {
     })
   }
   startValue = () => {
-    this.setState({ startOffice: this.state.data.office[0].NAME })
+    this.setState({ startOffice: this.state.data?.office?.length ? this.state.data.office[0].NAME : this.state.data.office.NAME})
     this.setState({ startEmploee: this.state.data.rights !== 'chief' ? this.state.data.name : 'all' }, () => {
       this.setState({ loading: false })
     })
@@ -40,7 +40,7 @@ export class App extends Component {
   getData = async (raw, mount) => {
     try {
       const res = await axios.post('https://hs-01.centralnoe.ru/Project-Selket-Main/Servers/Statistic/Controller.php', raw);
-      if (res.statusText === "OK") {
+      if (res.statusText === "OK" && res?.data) {
         this.setState({ data: res.data }, () => {
           mount && this.startValue();
         })

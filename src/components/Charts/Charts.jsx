@@ -5,44 +5,6 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import './Charts.scss';
 
 moment.locale('ru')
-const name = 'Название показателя'
-// const data = [
-//   {
-//     "date": "2022-01-01",
-//     "value": 40,
-//     "title": 'blablabla'
-//   },
-//   {
-//     "date": "2022-01-02",
-//     "value": 90,
-//     "title": 'blablabla'
-//   },
-//   {
-//     "date": "2022-01-03",
-//     "value": 4,
-//     "title": 'blablabla'
-//   },
-//   {
-//     "date": "2022-01-04",
-//     "value": 400,
-//     "title": 'blablabla'
-//   },
-//   {
-//     "date": "2022-01-05",
-//     "value": 459,
-//     "title": 'blablabla'
-//   },
-//   {
-//     "date": "2022-01-06",
-//     "value": 4123,
-//     "title": 'blablabla'
-//   },
-//   {
-//     "date": "2022-01-07",
-//     "value": 40,
-//     "title": 'blablabla'
-//   }
-// ];
 
 export function Charts({ currentStatistic }) {
   const [sliderWidth, setSliderWidth] = useState('');
@@ -60,7 +22,7 @@ export function Charts({ currentStatistic }) {
     return (
       <div>
         {
-          <p className='tooltip__intro'>{item.payload.title}: {item.payload.value}</p>
+          <p className='tooltip__intro'>{item.name}: {item.payload.value}</p>
         }
       </div>
     )
@@ -85,7 +47,7 @@ export function Charts({ currentStatistic }) {
           < div className='charts' style={{ height: 450, padding: '1rem' }}>
             <ResponsiveContainer width='100%' height={400}>
               <LineChart width='100%' height={400}
-                data={data}
+                data={currentStatistic.statistic}
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis
@@ -103,7 +65,7 @@ export function Charts({ currentStatistic }) {
                 <Legend
                   wrapperStyle={{ fontFamily: 'Montserrat', fontSize: 12 }}
                 />
-                <Line name={name} type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={4} activeDot={{ r: 8 }} />
+                <Line name={currentStatistic.name} type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={4} activeDot={{ r: 8 }} />
                 {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
               </LineChart>
             </ResponsiveContainer>
