@@ -60,7 +60,7 @@ export function Charts({ currentStatistic }) {
                   dataKey={(el) => getDate(el)}
                   style={{ fontFamily: 'Montserrat', fontSize: 12, cursor: 'pointer' }}
                   onClick={(el) => { 
-                    BX.SidePanel.Instance.open(`https://crm.centralnoe.ru/dev/dashboardTable/?date=${currentStatistic.year}-${currentStatistic.month}-${el.value.replace(/[^\d]/g, "")}&indicator=${currentStatistic.indicatorId}`, { animationDuration: 300, width: sliderWidth, }) 
+                    BX.SidePanel.Instance.open(`https://crm.centralnoe.ru/dev/dashboardTable/?date=${currentStatistic.year}-${currentStatistic.month}-${el.value.replace(/[^\d]/g, "")}&indicator=${currentStatistic.indicatorId}&officeId=${currentStatistic.officeId}&managerId=${currentStatistic.managerId}`, { animationDuration: 300, width: sliderWidth, }) 
                   }}
                 />
                 <YAxis
