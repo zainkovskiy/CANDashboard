@@ -18,11 +18,16 @@ export function Charts({ currentStatistic }) {
       moment(el.date).format("DD MMMM")
     )
   }
-  const getIntroOfPage = (item) => {
+  const getIntroOfPage = (lables) => {
     return (
       <div>
         {
-          <p className='tooltip__intro'>{item.name}: {item.payload.value}</p>
+          lables.map((label, idx) =>
+            <p
+              key={idx}
+              className='tooltip__intro'>{label.name}: {label.payload.value}
+            </p>
+          )
         }
       </div>
     )
@@ -33,7 +38,7 @@ export function Charts({ currentStatistic }) {
         <div className="tooltip">
           <p className="tooltip__label"
           >{label}</p>
-          {getIntroOfPage(payload[0])}
+          {getIntroOfPage(payload)}
         </div>
       );
     }
@@ -51,12 +56,15 @@ export function Charts({ currentStatistic }) {
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis
+                  allowDuplicatedCategory={false}
                   dataKey={(el) => getDate(el)}
                   style={{ fontFamily: 'Montserrat', fontSize: 12, cursor: 'pointer' }}
-                  // onClick={(el) => console.log(el)}
-                  onClick={() => BX.SidePanel.Instance.open(`https://crm.centralnoe.ru/dev/dashboardTable`, { animationDuration: 300, width: sliderWidth, })}
+                  onClick={(el) => { 
+                    BX.SidePanel.Instance.open(`https://crm.centralnoe.ru/dev/dashboardTable/?date=${currentStatistic.year}-${currentStatistic.month}-${el.value.replace(/[^\d]/g, "")}&indicator=${currentStatistic.indicatorId}`, { animationDuration: 300, width: sliderWidth, }) 
+                  }}
                 />
                 <YAxis
+                  dataKey='value'
                   style={{ fontFamily: 'Montserrat', fontSize: 12 }}
                 />
                 <Tooltip
@@ -65,15 +73,28 @@ export function Charts({ currentStatistic }) {
                 <Legend
                   wrapperStyle={{ fontFamily: 'Montserrat', fontSize: 12 }}
                 />
-                <Line name={currentStatistic.name} type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={4} activeDot={{ r: 8 }} />
-                {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
+                {
+                  currentStatistic?.statistic.map((line, idx) =>
+                    <Line
+                      key={idx}
+                      type="monotone"
+                      dataKey='value'
+                      data={line.data}
+                      name={line.name}
+                      stroke={line.color}
+                      strokeWidth={4}
+                      activeDot={{ r: 8 }}
+                    />
+                  )
+                }
               </LineChart>
             </ResponsiveContainer>
-            <span className='charts__text'>please, click date</span>
+            <span className='charts__text'>Нажмите на дату для просмотра статистики</span>
           </div> :
-          <p className="text" style={{padding: '0 1rem'}}>Нет данных</p>
+          <p className="text" style={{ padding: '0 1rem' }}>Нет данных</p>
       }
     </>
   );
 
 }
+

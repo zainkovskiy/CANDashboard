@@ -61,7 +61,7 @@ const monthList = [
 ]
 
 export function Header(props) {
-  const { name, rights, officeList, subordinated, getData, startOffice, startEmploee, setStateMount, setStateYear } = props;
+  const { name, rights, officeList, subordinated, getData, startOffice, startEmploee, setStateMount, setStateYear, request } = props;
 
   const [year, setYear] = useState(moment().format('YYYY'));
   const [month, setMonth] = useState(moment().format('M'));
@@ -93,7 +93,7 @@ export function Header(props) {
       getData({
         action: "getOffice",
         userId: userId,
-        officeId: officeList.find(officeFind => officeFind.NAME === office).NAME,
+        officeId: officeList.find(officeFind => officeFind.NAME === office).ID,
         month: month,
         year: year
       })
@@ -103,7 +103,7 @@ export function Header(props) {
         userId: userId,
         month: month,
         year: year,
-        managerId: rights === 'chief' ? subordinated.find(user => user.name === name).userId : userId
+        managerId: rights === 'chief' ? subordinated.find(user => user.name === employee).userId : userId
       })
     }
   }
@@ -199,7 +199,7 @@ export function Header(props) {
       <Button
         variant="contained"
         onClick={() => handlerFilter()}
-        disabled={btnDisabled}
+        disabled={btnDisabled || request}
       >
         Применить
       </Button>
