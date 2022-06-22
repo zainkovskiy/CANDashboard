@@ -109,9 +109,9 @@ export class App extends Component {
                   <p className="text error">Ошибка при загрузки</p> :
                   <>
                     <Header
-                      officeList={this.state.data.office}
+                      officeListState={this.state.data.office}
                       rights={this.state.data.rights}
-                      subordinated={this.state.data.subordinated}
+                      subordinatedState={this.state.data.subordinated}
                       getData={this.getData}
                       employee={this.state.employee}
                       office={this.state.office}

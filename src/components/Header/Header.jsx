@@ -61,12 +61,14 @@ const monthList = [
 ]
 
 export function Header(props) {
-  const { rights, officeList, subordinated, getData, office, employee, setStateMount, setStateYear, request, setStateSource } = props;
+  const { rights, officeListState, subordinatedState, getData, office, employee, setStateMount, setStateYear, request, setStateSource } = props;
 
   const [year, setYear] = useState(moment().format('YYYY'));
   const [month, setMonth] = useState(moment().format('M'));
   const [errorYear, setErrorYear] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
+  const [officeList, setOfficeList] = useState(officeListState);
+  const [subordinated, setSubordinated] = useState(subordinatedState);
 
   useEffect(() => {
     if (moment().format('YYYY') === year && month > moment().format('M')) {
