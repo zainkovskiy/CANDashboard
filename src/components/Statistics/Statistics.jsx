@@ -7,7 +7,7 @@ import { Week } from 'components/Week';
 import './Statistics.scss';
 
 export function Statistics(props) {
-  const { statistic, curWeek, getDealyStatitistic } = props;
+  const { statistic, curWeek, getDealyStatistic } = props;
   return (
     <div className="statistics">
       {
@@ -36,7 +36,7 @@ export function Statistics(props) {
                       <Button
                         variant="outlined"
                         style={{ alignSelf: 'flex-start' }}
-                        onClick={() => {getDealyStatitistic(block.UID)}}
+                        onClick={() => {getDealyStatistic(block.UID)}}
                       >
                         По дням
                       </Button>

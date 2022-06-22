@@ -61,12 +61,10 @@ const monthList = [
 ]
 
 export function Header(props) {
-  const { name, rights, officeList, subordinated, getData, startOffice, startEmploee, setStateMount, setStateYear, request } = props;
+  const { rights, officeList, subordinated, getData, office, employee, setStateMount, setStateYear, request, setStateSource } = props;
 
   const [year, setYear] = useState(moment().format('YYYY'));
   const [month, setMonth] = useState(moment().format('M'));
-  const [employee, setEmployee] = useState(startEmploee);
-  const [office, setOffice] = useState(startOffice)
   const [errorYear, setErrorYear] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
 
@@ -93,7 +91,7 @@ export function Header(props) {
       getData({
         action: "getOffice",
         userId: userId,
-        officeId: officeList.find(officeFind => officeFind.NAME === office).ID,
+        officeId: office.ID,
         month: month,
         year: year
       })
@@ -103,7 +101,7 @@ export function Header(props) {
         userId: userId,
         month: month,
         year: year,
-        managerId: rights === 'chief' ? subordinated.find(user => user.name === employee).userId : userId
+        managerId: employee.userId
       })
     }
   }
@@ -119,18 +117,18 @@ export function Header(props) {
           value={office}
           label='Офис'
           name={'office'}
-          onChange={event => { setOffice(event.target.value), setBtnDisabled(false) }}
+          onChange={event => { setStateSource(event.target.value, 'office'), setBtnDisabled(false) }}
           size='small'
           disabled={rights !== 'chief'}
         >
           {
             officeList?.length > 0 &&
             officeList.map(office =>
-              <MenuItem key={office.ID} value={office.NAME}>{office.NAME}</MenuItem>)
+              <MenuItem key={office.ID} value={office}>{office.NAME}</MenuItem>)
           }
           {
             rights !== 'chief' &&
-            <MenuItem value={office}>{office}</MenuItem>
+            <MenuItem value={office}>{office.NAME}</MenuItem>
           }
         </Select>
       </FormControl>
@@ -142,13 +140,13 @@ export function Header(props) {
           value={employee}
           label='Сотрудник'
           name={'employee'}
-          onChange={event => { setEmployee(event.target.value), setBtnDisabled(false) }}
+          onChange={event => { setStateSource(event.target.value, 'employee'), setBtnDisabled(false) }}
           size='small'
           disabled={rights !== 'chief'}
         >
           {
             rights !== 'chief' &&
-            <MenuItem value={employee}>{employee}</MenuItem>
+            <MenuItem value={employee}>{employee.NAME}</MenuItem>
           }
           {
             rights === 'chief' && subordinated?.length > 0 &&
@@ -157,8 +155,8 @@ export function Header(props) {
           {
             rights === 'chief' && subordinated?.length > 0 &&
             subordinated.map(employee =>
-              +employee.officeId === +officeList.find(officeFind => officeFind.NAME === office).ID &&
-              <MenuItem key={employee.userId} value={employee.name}>{employee.name}</MenuItem>)
+              +employee.officeId === +office.ID &&
+              <MenuItem key={employee.userId} value={employee}>{employee.name}</MenuItem>)
           }
         </Select>
       </FormControl>

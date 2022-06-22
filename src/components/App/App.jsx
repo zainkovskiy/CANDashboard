@@ -20,8 +20,8 @@ export class App extends Component {
     mounth: moment().format('M'),
     year: moment().format('YYYY'),
     currentStatistic: null,
-    startOffice: '',
-    startEmploee: ''
+    office: '',
+    employee: ''
   }
 
   showCarts = () => {
@@ -32,8 +32,8 @@ export class App extends Component {
     })
   }
   startValue = () => {
-    this.setState({ startOffice: this.state.data?.office?.length ? this.state.data.office[0].NAME : this.state.data.office.NAME })
-    this.setState({ startEmploee: this.state.data.rights !== 'chief' ? this.state.data.name : 'all' }, () => {
+    this.setState({ office: this.state.data.office[0] })
+    this.setState({ employee: this.state.data.rights !== 'chief' ? this.state.data.subordinated[0] : 'all' }, () => {
       this.setState({ loading: false })
     })
   }
@@ -57,7 +57,7 @@ export class App extends Component {
     }
   }
 
-  getDealyStatitistic = async (UID) => {
+  getDealyStatistic = async (UID) => {
     this.setState({ requestLoading: true });
     try {
       const res = await axios.post('https://hs-01.centralnoe.ru/Project-Selket-Main/Servers/Statistic/Controller.php', {
@@ -65,7 +65,9 @@ export class App extends Component {
         "userId": userId,
         "month": this.state.mounth,
         "year": this.state.year,
-        "indicatorId": UID
+        "indicatorId": UID,
+        "managerId": this.state.employee.userId,
+        "officeId": this.state.office.ID,
       });
       if (res?.data && res?.statusText === "OK") {
         this.setState({ currentStatistic: res.data })
@@ -88,6 +90,13 @@ export class App extends Component {
     this.setState({ year: value });
   }
 
+  setStateSource = (value, source) => {
+    if(source === 'office'){
+      this.setState({employee: 'all'})
+    }
+    this.setState({[source]: value})
+  }
+
   render() {
     return (
       <>
@@ -100,13 +109,13 @@ export class App extends Component {
                   <p className="text error">Ошибка при загрузки</p> :
                   <>
                     <Header
-                      name={this.state.data.name}
                       officeList={this.state.data.office}
                       rights={this.state.data.rights}
                       subordinated={this.state.data.subordinated}
                       getData={this.getData}
-                      startEmploee={this.state.startEmploee}
-                      startOffice={this.state.startOffice}
+                      employee={this.state.employee}
+                      office={this.state.office}
+                      setStateSource={this.setStateSource}
                       setStateMount={this.setStateMount}
                       setStateYear={this.setStateYear}
                       request={ this.state.requestLoading }
@@ -117,7 +126,7 @@ export class App extends Component {
                         <Statistics
                           statistic={this.state.data.statistic}
                           curWeek={this.state.data.curWeek}
-                          getDealyStatitistic={this.getDealyStatitistic}
+                          getDealyStatistic={this.getDealyStatistic}
                         />
                     }
                     <ModalWindow
