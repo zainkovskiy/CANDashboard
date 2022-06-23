@@ -201,7 +201,7 @@ export function Header(props) {
         onClick={() => handlerFilter()}
         disabled={btnDisabled || request}
       >
-        Применить
+        Сформировать
       </Button>
     </div>
   </div>)
