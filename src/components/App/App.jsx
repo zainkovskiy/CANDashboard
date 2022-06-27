@@ -57,7 +57,7 @@ export class App extends Component {
     }
   }
 
-  getDealyStatistic = async (UID) => {
+  getDealyStatistic = async (blockUID, weekUID) => {
     this.setState({ requestLoading: true });
     try {
       const res = await axios.post('https://hs-01.centralnoe.ru/Project-Selket-Main/Servers/Statistic/Controller.php', {
@@ -65,9 +65,10 @@ export class App extends Component {
         "userId": userId,
         "month": this.state.mounth,
         "year": this.state.year,
-        "indicatorId": UID,
+        "indicatorId": blockUID,
         "managerId": this.state.employee.userId,
         "officeId": this.state.office.ID,
+        "numberWeek": weekUID
       });
       if (res?.data && res?.statusText === "OK") {
         this.setState({ currentStatistic: res.data })

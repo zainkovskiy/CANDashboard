@@ -6,13 +6,14 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import Button from '@mui/material/Button';
 
 import { BorderLinearProgress } from 'components/BorderLinearProgress';
 
 import './Week.scss';
 
 export function Week(props) {
-  const { curWeek, week } = props;
+  const { curWeek, week, getDealyStatistic, blockUID, hasDailyStatistic  } = props;
   const indexCurrentWeek = week ? week.indexOf(week.find(item => item.UID === +curWeek)) : '';
   const [value, setValue] = useState(indexCurrentWeek);
 
@@ -30,7 +31,7 @@ export function Week(props) {
           style={{ backgroundColor: 'aliceblue' }}
           sx={{ borderBottomLeftRadius: 5, borderBottomRightRadius: 5, }}
         >
-          { week && <span className="text">По неделям</span>}
+          {week && <span className="text">По неделям</span>}
         </AccordionSummary>
         <AccordionDetails>
           {
@@ -64,9 +65,21 @@ export function Week(props) {
                     <BorderLinearProgress
                       performance={item.performance}
                     />
-                    <div style={{ margin: '0.5rem 0 0 0' }}>
-                      <span className="text"> План {item.plan}</span> /
-                      <span className="text"> Факт {item.fact}</span>
+                    <div className='week__bottom'>
+                      <div>
+                        <span className="text"> План {item.plan}</span> /
+                        <span className="text"> Факт {item.fact}</span>
+                      </div>
+                      {
+                        hasDailyStatistic &&
+                        <Button
+                          variant="outlined"
+                          style={{ alignSelf: 'flex-start' }}
+                          onClick={() => { getDealyStatistic(blockUID, item.UID) }}
+                        >
+                          Подробнее
+                        </Button>
+                      }
                     </div>
                   </div>
                 )

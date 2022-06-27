@@ -1,7 +1,5 @@
 import React from "react";
-import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
-import { blueGrey } from "@mui/material/colors";
 
 
 import { BorderLinearProgress } from 'components/BorderLinearProgress';
@@ -45,20 +43,13 @@ export function Statistics(props) {
                         <span className="text"> Факт {block.month.fact} {block.unit && block.unit}</span>
                       </div>
                     </div>
-                    {
-                      block.hasDailyStatistic &&
-                      <Button
-                        variant="outlined"
-                        style={{ alignSelf: 'flex-start' }}
-                        onClick={() => { getDealyStatistic(block.UID) }}
-                      >
-                        По дням
-                      </Button>
-                    }
                   </div>
                   <Week
                     week={block.week ? block.week : ''}
                     curWeek={curWeek}
+                    getDealyStatistic={getDealyStatistic}
+                    blockUID={block.UID}
+                    hasDailyStatistic={block.hasDailyStatistic}
                   />
                 </>
               }
