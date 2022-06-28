@@ -1,9 +1,13 @@
 import React from "react";
 import Link from '@mui/material/Link';
 
-
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { BorderLinearProgress } from 'components/BorderLinearProgress';
 import { Week } from 'components/Week';
+import { ChartsMini } from 'components/ChartsMini';
 
 import './Statistics.scss';
 
@@ -44,13 +48,52 @@ export function Statistics(props) {
                       </div>
                     </div>
                   </div>
-                  <Week
-                    week={block.week ? block.week : ''}
-                    curWeek={curWeek}
-                    getDealyStatistic={getDealyStatistic}
-                    blockUID={block.UID}
-                    hasDailyStatistic={block.hasDailyStatistic}
-                  />
+                  <Accordion>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                      style={{ backgroundColor: 'aliceblue' }}
+                      sx={{ borderBottomLeftRadius: 5, borderBottomRightRadius: 5, }}
+                      disabled={!block?.hasAdditionalCharts}
+                    >
+                      <span className="text">Разрезы</span>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <div className="statistic__section">
+                        {
+                          block?.hasAdditionalCharts &&
+                          block.additionalCharts.map((chart, idx) =>
+                            <ChartsMini
+                              key={idx}
+                              chart={chart}
+                            />
+                          )
+                        }
+                      </div>
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                      style={{ backgroundColor: 'aliceblue' }}
+                      sx={{ borderBottomLeftRadius: 5, borderBottomRightRadius: 5, }}
+                      disabled={!block?.hasDailyStatistic}
+                    >
+                      <span className="text">По неделям</span>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Week
+                        week={block.week ? block.week : ''}
+                        curWeek={curWeek}
+                        getDealyStatistic={getDealyStatistic}
+                        blockUID={block.UID}
+                        hasDailyStatistic={block.hasDailyStatistic}
+                      />
+                    </AccordionDetails>
+                  </Accordion>
                 </>
               }
             </div>
