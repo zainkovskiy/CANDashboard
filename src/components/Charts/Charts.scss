@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
   &__text{
     font-family: 'Montserrat', sans-serif;
     text-align: center;
@@ -12,13 +13,13 @@
 }
 
 .tooltip{
-  background-color: rgba(0, 0, 0, 0.121);
+  background-color: rgb(147, 147, 147);
   border-radius: 5px;
   padding: 0.5rem;
   font-family: 'Montserrat', sans-serif;
   font-size: 12px;
   letter-spacing: 0.8px;
-  color: #737373;
+  color: #ffffff;
   &__label{
     font-weight: 700;
     margin: 0 0 0.5rem 0;

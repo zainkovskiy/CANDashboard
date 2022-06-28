@@ -1,8 +1,7 @@
 import React from 'react';
-import { BarChart, Bar, Label, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, LabelList } from 'recharts';
 
 export function ChartsMini({ chart }) {
-  console.log(chart);
   return (
     <ResponsiveContainer width="50%" height={100}>
       <BarChart
@@ -11,6 +10,7 @@ export function ChartsMini({ chart }) {
         data={chart.data}
         layout='vertical'
         barCategoryGap={25}
+        margin={{right: 20, bottom: 10}}
       >
         <XAxis type='number'
           style={{ fontFamily: 'Montserrat', fontSize: 12 }}
@@ -19,8 +19,12 @@ export function ChartsMini({ chart }) {
         <YAxis dataKey="name" type='category'
           style={{ fontFamily: 'Montserrat', fontSize: 12 }}
         />
-        <Bar name='План' dataKey="plan" fill="#8884d8" />
-        <Bar name='Факт' dataKey="fact" fill="#82ca9d" />
+        <Bar name='План' dataKey="plan" fill="#8884d8">
+          <LabelList dataKey='plan' style={{ fontSize: 12, fontFamily: 'Montserrat', }} position='right'/>
+        </Bar>
+        <Bar name='Факт' dataKey="fact" fill="#82ca9d">
+          <LabelList dataKey='fact' style={{ fontSize: 12, fontFamily: 'Montserrat', }} position='right'/>
+        </Bar>
       </BarChart>
     </ResponsiveContainer>
   )
