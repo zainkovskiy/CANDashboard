@@ -8,6 +8,9 @@
 .history-item{
   padding: 0.5rem;
   border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   &_link{
     cursor: pointer;
     background-color: #e6e6e6;
