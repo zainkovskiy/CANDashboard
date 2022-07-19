@@ -10,6 +10,8 @@ import Box from '@mui/material/Box';
 import './HistoryList.scss';
 
 export const HistoryList = ({ managerId, officeId, month, year }) => {
+console.log("🚀 ~ file: HistoryList.jsx ~ line 13 ~ HistoryList ~ year", year)
+console.log("🚀 ~ file: HistoryList.jsx ~ line 13 ~ HistoryList ~ month", month)
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 

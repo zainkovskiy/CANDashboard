@@ -7,7 +7,7 @@ import { HistoryList } from 'components/HistoryList';
 
 import './History.scss';
 
-export function History({ managerId, officeId }) {
+export function History({ managerId, officeId, month, year }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -31,6 +31,8 @@ export function History({ managerId, officeId }) {
         children={<HistoryList 
           managerId={ managerId }
           officeId={ officeId }
+          month={ month }
+          year={ year }
         />}
       />
     </>

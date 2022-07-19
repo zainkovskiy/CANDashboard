@@ -155,8 +155,8 @@ export class App extends Component {
   componentDidMount() {
     this.getData({
       action: "get",
-      // userId: userId,
-      userId: 2198,
+      userId: userId,
+      // userId: 2198,
       month: "",
       year: ""
     }, true)
