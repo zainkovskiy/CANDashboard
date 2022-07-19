@@ -7,6 +7,7 @@ import { Linear } from 'components/Linear';
 import { Statistics } from 'components/Statistics';
 import { ModalWindow } from 'components/ModalWindow';
 import { Charts } from 'components/Charts';
+import { History } from 'components/History';
 
 import './App.scss';
 
@@ -63,6 +64,7 @@ export class App extends Component {
       const res = await axios.post('https://hs-01.centralnoe.ru/Project-Selket-Main/Servers/Statistic/Controller.php', {
         "action": "getDealy",
         "userId": userId,
+        // "userId": 2198,
         "month": this.state.mounth,
         "year": this.state.year,
         "indicatorId": blockUID,
@@ -92,10 +94,10 @@ export class App extends Component {
   }
 
   setStateSource = (value, source) => {
-    if(source === 'office'){
-      this.setState({employee: 'all'})
+    if (source === 'office') {
+      this.setState({ employee: 'all' })
     }
-    this.setState({[source]: value})
+    this.setState({ [source]: value })
   }
 
   render() {
@@ -119,16 +121,24 @@ export class App extends Component {
                       setStateSource={this.setStateSource}
                       setStateMount={this.setStateMount}
                       setStateYear={this.setStateYear}
-                      request={ this.state.requestLoading }
+                      request={this.state.requestLoading}
                     />
                     {
                       this.state.requestLoading ?
                         <Linear /> :
-                        <Statistics
-                          statistic={this.state.data.statistic}
-                          curWeek={this.state.data.curWeek}
-                          getDealyStatistic={this.getDealyStatistic}
-                        />
+                        <>
+                          <History
+                            managerId={this.state.employee.userId}
+                            officeId={this.state.office.ID}
+                            month={this.state.mounth}
+                            year={this.state.year}
+                          />
+                          <Statistics
+                            statistic={this.state.data.statistic}
+                            curWeek={this.state.data.curWeek}
+                            getDealyStatistic={this.getDealyStatistic}
+                          />
+                        </>
                     }
                     <ModalWindow
                       open={this.state.open}
@@ -145,8 +155,8 @@ export class App extends Component {
   componentDidMount() {
     this.getData({
       action: "get",
-      userId: userId,
-      // userId: 2198,
+      // userId: userId,
+      userId: 2198,
       month: "",
       year: ""
     }, true)
