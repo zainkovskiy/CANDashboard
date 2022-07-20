@@ -90,6 +90,7 @@ const HistoryItem = ({ item }) => {
             <span className='history-item__text history-item__text_small'>
               {item.payStatus === 'locked' && 'Заблокировано'}
               {item.payStatus === 'success' && 'Успешно'}
+              {item.payStatus === 'rollback' && 'Возврат средств'}
             </span>
           </div>
           <span className={`history-item__text history-item__text_bold ${ item.costType === 'add' ? 'history-item__text_green' : '' }`}>
