@@ -99,6 +99,21 @@ export class App extends Component {
     }
     this.setState({ [source]: value })
   }
+  getSubordinated = () => {
+    if (this.state?.data?.subordinated) {
+      return this.state.data.subordinated.sort(this.sortSubordinated)
+    }
+    return []
+  }
+  sortSubordinated = (a,b) => {
+    if (a.name < b.name){
+      return -1
+    }
+    if (a.name > b.name){
+      return 1
+    }
+    return 0
+  }
 
   render() {
     return (
@@ -114,7 +129,7 @@ export class App extends Component {
                     <Header
                       officeListState={this.state.data.office}
                       rights={this.state.data.rights}
-                      subordinatedState={this.state.data.subordinated}
+                      subordinatedState={this.getSubordinated()}
                       getData={this.getData}
                       employee={this.state.employee}
                       office={this.state.office}
